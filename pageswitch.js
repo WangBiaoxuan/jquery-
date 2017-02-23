@@ -204,7 +204,8 @@
 		return PageSwitch;
 	})();
 
-	$.fn.PageSwitch = function(options){
+	/*方法一 定义在$.fn即$.prototype上*/
+	/*$.fn.PageSwitch = function(options){
 		return this.each(function(){
 			var me = $(this),
 				instance = me.data("PageSwitch");
@@ -215,7 +216,22 @@
 
 			if($.type(options) === "string") return instance[options]();
 		});
-	};
+	};*/
+
+    /*方法二 使用jquery.fn.extend方法*/
+    $.fn.extend({
+            PageSwitch : function(options){
+                return this.each(function(){
+                    var me = $(this),
+                        instance = me.data("PageSwitch");
+                    if(!instance){
+                        me.data("PageSwitch", (instance = new PageSwitch(me, options)));
+                    }
+                    if($.type(options) === "string") return instance[options]();
+                });
+            }
+        }
+    );
 
 	$.fn.PageSwitch.defaults = {
 		selectors : {
